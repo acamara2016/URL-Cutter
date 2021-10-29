@@ -4,7 +4,7 @@
   "description": "API",
   "main": "server.js",
   "scripts": {
-    "start": "NODE_ENV=production MONGO_USER=url_member MONGO_PASSWORD=3cVwtPLUEbzMO46I MONGO_DEFAULT_DATABASE=url STRIPE_KEY=pk_test_eyJ59I5dwRJChpHG92d3apnF00hKX8fGUN node app.js",
+    "start": "NODE_ENV=production MONGO_USER=url_member MONGO_PASSWORD=3cVwtPLUEbzMO46I MONGO_DEFAULT_DATABASE=url STRIPE_KEY=pk_test_eyJ59I5dwRJChpHG92d3apnF00hKX8fGUN node server.js",
     "dev": "NODE_ENV=production MONGO_USER=url_member MONGO_PASSWORD=3cVwtPLUEbzMO46I MONGO_DEFAULT_DATABASE=url STRIPE_KEY=pk_test_eyJ59I5dwRJChpHG92d3apnF00hKX8fGUN nodemon server.js"
   },
   "keywords": [
