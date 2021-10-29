@@ -3,10 +3,13 @@ const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
 const app = express()
-const db = require('./api/db/connection')
+const session = require('express-session')
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 // Body parser
+const MONGODB_URI = `mongodb+srv://url_member:3cVwtPLUEbzMO46I@cluster0.nr8aa.mongodb.net/url`;
 const bodyParser = require('body-parser')
+ 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
@@ -36,13 +39,38 @@ app.use(function (req, res, next) {
 const login = require('./api/routes/login')
 const register = require('./api/routes/register')
 const url = require('./api/routes/url')
+const dashboard = require('./api/routes/dashboard')
 // Use routes
+const store = new MongoDBStore({
+  uri: MONGODB_URI,
+  collection: 'sessions'
+});
 app.use('/login', login)
 app.use('/register', register)
 app.use('/', url)
+app.use('/dashboard', dashboard)
+app.use(
+  session({
+    secret: 'my secret',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  User.findById(req.session.user._id)
+    .then(user => {
+      req.user = user;
+      next();
+    })
+    .catch(err => console.log(err));
+});
 // Listen for the server at a port.
 mongoose
-  .connect('mongodb+srv://url_member:3cVwtPLUEbzMO46I@cluster0.nr8aa.mongodb.net/urls?retryWrites=true&w=majority')
+  .connect(MONGODB_URI)
   .then(result => {
     console.log('🚀 Connected');
     app.listen(process.env.PORT || 3000);

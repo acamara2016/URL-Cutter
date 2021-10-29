@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
 const User = require('../db/models/User')
@@ -38,7 +38,6 @@ router.post('/', (req, res, next) => {
 						'email': data.email,
 						'username': data.username
 					}
-
 					// Options for the token
 					const jwtOptions = {
 						expiresIn: '1h'
@@ -52,6 +51,12 @@ router.post('/', (req, res, next) => {
 						'msg': 'Authentication successful',
 						'auth_token': token
 					})
+					req.session.isLoggedIn = true;
+					req.session.user = user;
+					return req.session.save(err => {
+					console.log(err);
+					res.redirect('/');
+					});
 				} else {
 					res.status(401).json({
 						'msg': 'Authentication failed'

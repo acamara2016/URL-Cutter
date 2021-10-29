@@ -10,6 +10,7 @@ exports.getIndex = (req, res, next) => {
         })
     })
 }
+
 exports.getAbout = (req, res, next) => {
     res.render('about', {
         pageTitle: 'About',

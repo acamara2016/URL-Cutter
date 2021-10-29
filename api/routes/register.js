@@ -1,5 +1,5 @@
 const express = require('express')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 const router = express.Router()
 
@@ -11,9 +11,15 @@ const User = require('../db/models/User')
  * POST
  * body : { fname, lname, email, password, username }
 */
+router.get('/', (req, res, next) => {
+	res.render('register', {
+		pageTitle: 'Register',
+		path: 'register'
+	})
+})
 router.post('/', (req, res, next) => {
 	// Get values
-	const { fname, lname, email, username, password } = req.body
+	const { fname, lname, email, password } = req.body
 
 	// REGEX for E-mail validation
 	const reg = /^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/
@@ -34,12 +40,8 @@ router.post('/', (req, res, next) => {
 		res.status(422).json({
 			'error': 'passwordError'
 		}).end()
-	} else if ( username == null || username === '' ) {
-		res.status(422).json({
-			'error': 'usernameError'
-		}).end()
 	} else {
-		User.findOne( { $or: [{ email: email }, { username: username }] })
+		User.findOne( { $or: [{ email: email }] })
 		.exec()
 		.then(data => {
 			if (data) {
@@ -54,12 +56,13 @@ router.post('/', (req, res, next) => {
 							'msg': 'Error while encrypting data. Please try again later.'
 						})
 					} else {
-						const user = new User({ fname, lname, email, username, password })
+						const user = new User({ fname, lname, email, password })
 						user.save()
 						.then(() => {
-							res.status(200).json({
-								'msg': 'Data entered successfuly.'
-							}).end()
+							// res.status(200).json({
+							// 	'msg': 'Data entered successfuly.'
+							// })
+							res.status(200).redirect('/dashboard').end()
 						})
 						.catch(() => {
 							res.status(500).json({
@@ -83,28 +86,28 @@ router.post('/', (req, res, next) => {
  * POST
  * body : { username }
 */
-router.post('/username', (req, res, next) => {
-	const { username } = req.body
-	User.findOne({ username: username }, (err, data) => {
-		if (err) {
-			res.status(500).json({
-				'msg': 'Server error occured. Please try again later...'
-			}).end()
-		} else {
-			if (data) {
-				res.status(200).json({
-					'msg': 'User with the username exists.',
-					'exists': true
-				}).end()
-			} else {
-				res.status(404).json({
-					'msg': 'User with the username does not exist.',
-					'exists': false
-				}).end()
-			}
-		}
-	})
-})
+// router.post('/username', (req, res, next) => {
+// 	const { username } = req.body
+// 	User.findOne({ username: username }, (err, data) => {
+// 		if (err) {
+// 			res.status(500).json({
+// 				'msg': 'Server error occured. Please try again later...'
+// 			}).end()
+// 		} else {
+// 			if (data) {
+// 				res.status(200).json({
+// 					'msg': 'User with the username exists.',
+// 					'exists': true
+// 				}).end()
+// 			} else {
+// 				res.status(404).json({
+// 					'msg': 'User with the username does not exist.',
+// 					'exists': false
+// 				}).end()
+// 			}
+// 		}
+// 	})
+// })
 
 /**
  * /register/email

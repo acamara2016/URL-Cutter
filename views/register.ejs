@@ -20,9 +20,15 @@
         <div class="row">
           <div class="col-md-8 offset-md-2">
             <div class="header-text caption">
-              <h2>Login to your account</h2>
+              <h2>Create a free account</h2>
               <div id="search-section">
-              	<form id="suggestion_form" method="post" action="/login">
+              	<form id="suggestion_form" method="post" action="/register">
+                  <div class="searchText">
+                    <input type="text" name="fname" class="searchText" placeholder="Enter your first name here..." autocomplete="on">
+                  </div>
+                  <div class="searchText">
+                    <input type="text" name="lname" class="searchText" placeholder="Enter your last name here..." autocomplete="on">
+                  </div>
                 <div class="searchText">
                   <input type="text" name="email" class="searchText" placeholder="Enter your email here..." autocomplete="on">
                 </div>
@@ -30,7 +36,7 @@
                     <input type="password" name="password" class="searchText" placeholder="Enter your password here..." autocomplete="on">
                   </div>
                <div class="searchText">
-                <input type="submit" name="results" class="authbutton" value="Login">
+                <input type="submit" name="results" class="authbutton" value="Register">
               </div>
                  </form>
               </div>
