@@ -5,8 +5,15 @@ exports.getIndex = (req, res, next) => {
     .then(urls => {
         res.render('index',{
             pageTitle: 'Home',
-            data: urls
+            data: urls,
+            path: '/'
         })
+    })
+}
+exports.getAbout = (req, res, next) => {
+    res.render('about', {
+        pageTitle: 'About',
+        path: '/about-us'
     })
 }
 exports.getData = (req, res, next) => {
@@ -19,7 +26,8 @@ exports.getSuccess = ( req, res, next) => {
     const url = req.params.url
     res.render('success', {
         shorten_url: url,
-        pageTitle: 'Success'
+        pageTitle: 'Success',
+        path: '/sucess'
     })
 }
 exports.shortenUrl = (req, res, next) => {

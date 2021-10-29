@@ -65,4 +65,11 @@ router.post('/', (req, res, next) => {
 	}
 })
 
+router.get('/', (req, res, next)=>{
+	res.render('login', {
+		pageTitle: 'Login', 
+		path:'login'
+	})
+})
+
 module.exports = router
