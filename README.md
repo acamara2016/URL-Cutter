@@ -7,10 +7,9 @@
 
 ## Getting Started
 
-Choose one of the following options to get started:
+How to use the app:
 * Enter a url in the landing page & Generate url
 * Create an account to track the number of clicks
-
 
 ## Image Attribution
 
